@@ -1,0 +1,24 @@
+version: 2.1
+orbs:
+  node: circleci/node@5.0.2
+  eb: circleci/aws-elastic-beanstalk@2.0.1
+
+jobs:
+  build:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install
+      - aws-cli/setup
+      - eb/setup
+      - run:
+          name: next app deploy
+          command: |
+            npm run deploy
+workflows:
+  main:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master 
